@@ -63,6 +63,8 @@ function animate() {
 
     renderer.render(scene, camera);
     controls.update();
+
+    
 }
 
 function onWindowResize() {
@@ -70,3 +72,32 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+
+window.addEventListener('dblclick', () =>
+    {
+        const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+    
+        if(!fullscreenElement)
+        {
+            if(renderer.domElement.requestFullscreen)
+            {
+                renderer.domElement.requestFullscreen()
+            }
+            else if(renderer.domElement.webkitRequestFullscreen)
+            {
+                renderer.domElement.webkitRequestFullscreen()
+            }
+        }
+        else
+        {
+            if(document.exitFullscreen)
+            {
+                document.exitFullscreen()
+            }
+            else if(document.webkitExitFullscreen)
+            {
+                document.webkitExitFullscreen()
+            }
+        }
+    })
