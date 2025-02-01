@@ -36,10 +36,23 @@ rgbeLoader.load('/src/assets/HDR_blue_nebulae-1.hdr', (texture) => {
 });
 
 // Create 15 random objects
-const generateRandomColor = () => `#${Math.floor(Math.random()*16777215).toString(16)}`;
+const generateRandomColor = () =>{
+    // تولید سه عدد تصادفی بین 0 تا 255 برای R، G و B
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+
+    // تبدیل اعداد به مقدار هگزادسیمال و اطمینان از اینکه دو رقمی باقی بمانند
+    let hexR = r.toString(16).padStart(2, '0');
+    let hexG = g.toString(16).padStart(2, '0');
+    let hexB = b.toString(16).padStart(2, '0');
+
+    // ترکیب و خروجی رنگ هگزادسیمال
+    return `#${hexR}${hexG}${hexB}`;
+}
 
 for (let i = 0; i < 15; i++) {
-    const randomGeometry = Math.floor(Math.random() * 3);
+    const randomGeometry = Math.floor(Math.random() * 9);
     let geometry;
 
     switch (randomGeometry) {
@@ -52,6 +65,24 @@ for (let i = 0; i < 15; i++) {
         case 2:
             geometry = new THREE.ConeGeometry(0.5, 1, 32);
             break;
+        case 3:
+            geometry = new THREE.CapsuleGeometry( 1, 1, 4, 8 ); 
+            break;
+        case 4:
+            geometry = new THREE.CircleGeometry( 1, 8 ); 
+            break;
+        case 5:
+            geometry = new THREE.CylinderGeometry( 1, 1, 10, 16 );  
+            break;
+        case 6:
+            geometry = new THREE.RingGeometry( 1, 5, 16 );
+            break;
+        case 7:
+            geometry = new THREE.TorusGeometry( 10, 3, 16, 10 ); 
+            break;
+        case 8:
+            geometry = new THREE.TorusKnotGeometry( 10, 3, 10, 16 ); 
+            break;
     }
 
     const material = new THREE.MeshStandardMaterial({
@@ -61,7 +92,7 @@ for (let i = 0; i < 15; i++) {
     });
 
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
+    mesh.position.set(Math.random() * 100 - 20, Math.random() * 100 - 20, Math.random() * 100 - 20);
     scene.add(mesh);
 }
 
@@ -85,7 +116,6 @@ function animate() {
   // Update FOV display
   fovDisplay.textContent = `FOV: ${camera.fov.toFixed(2)} °`;
 
-  console.log(camera.fov)
 
     scene.traverse((object) => {
         if (object.isMesh) {
